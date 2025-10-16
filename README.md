@@ -1,5 +1,5 @@
 # Emergency Numbers Lookup
-![alt text](image.png)
+![alt text](data/image.png)
 ## About
 A web app to quickly find emergency contact numbers for various services during critical situations.
 
