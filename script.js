@@ -1,5 +1,6 @@
 navigator.geolocation.getCurrentPosition(success, error);
 const countryLabel = document.getElementById('country-label');
+
 function success(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
@@ -7,7 +8,7 @@ function success(position) {
 }
 
 function error(err) {
-    countryLabel.innerHTML = "<h2>Something went wrong</h2><p>Try reloading the website</p>";
+    countryLabel.innerHTML = "<h2>something went wrong</h2><p>try reloading the website</p>";
 }
 
 async function reverseGeocode(lat, lon) {
@@ -17,7 +18,7 @@ async function reverseGeocode(lat, lon) {
 
     const country = data.address.country;
     const country_code = data.address.country_code;
-    countryLabel.innerHTML = `<h2>You're in <span class ="country-name">${country}</span></h2>`;
+    countryLabel.innerHTML = `<span class="country-name">${country}</span>`;
     searchByCountry(country_code);
 }
 
@@ -31,50 +32,72 @@ fetch("https://raw.githubusercontent.com/infinotiver/emergency-number-api/refs/h
 
 function searchByCountry(countryCode) {
     const results = emergencyData[countryCode.toUpperCase()];
-    renderResults(results);
+    if (results) {
+        renderResults(results);
+    }
 }
 
 function renderResults(data) {
     const resultsDiv = document.getElementById('result');
+    const notesDiv = document.getElementById('notes-container');
+
     resultsDiv.innerHTML = "";
+    notesDiv.innerHTML = "";
+
     const police = `
     <div class="card">
-      <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
-      <div class="card-title">Police</div>
-      <div class="card-number">${data.police}</div>
+      <div class="card-number">${data.police || ""}</div>
+      <div class="card-title">
+        <i class="fa-solid fa-shield-halved"></i> police
+      </div>
     </div>
     `;
 
     const ambulance = `
     <div class="card">
-      <div class="card-icon"><i class="fa-solid fa-kit-medical"></i></div>
-      <div class="card-title">Ambulance</div>
-      <div class="card-number">${data.ambulance}</div>
+      <div class="card-number">${data.ambulance || ""}</div>
+      <div class="card-title">
+        <i class="fa-solid fa-kit-medical"></i> ambulance
+      </div>
     </div>
     `;
 
     const fire = `
     <div class="card">
-      <div class="card-icon"><<i class="fa-solid fa-fire-extinguisher"></i></div>
-      <div class="card-title">Fire</div>
-      <div class="card-number">${data.fire}</div>
+      <div class="card-number">${data.fire || ""}</div>
+      <div class="card-title">
+        <i class="fa-solid fa-fire-extinguisher"></i> fire
+      </div>
     </div>
     `;
-    const notes = `
-    <p>${data.notes}</p>`;
 
-    resultsDiv.innerHTML = police + ambulance + fire + notes;
+    resultsDiv.innerHTML = police + ambulance + fire;
+
+    if (data.notes) {
+        notesDiv.innerHTML = `<p>${data.notes}</p>`;
+    }
 }
 
 let mapInitialized = false;
 
 document.getElementById("change-location").addEventListener("click", () => {
     const mapWrap = document.getElementById("map-container");
-    mapWrap.style.display = "block";
+    mapWrap.style.display = "flex"; 
 
     if (!mapInitialized) {
         initMap();
+
+        setTimeout(() => {
+            map.invalidateSize();
+        }, 10);
         mapInitialized = true;
+    }
+});
+
+
+document.getElementById("map-container").addEventListener("click", (e) => {
+    if (e.target.id === "map-container") {
+        e.target.style.display = "none";
     }
 });
 
@@ -100,13 +123,13 @@ function initMap() {
 
             const countryCode = data.address.country_code;
             if (countryCode) {
-                countryLabel.innerHTML = `<h2>You selected <span class="country-name">${country}</span></h2>`;
+                countryLabel.innerHTML = `<span class="country-name">${country}</span>`;
                 searchByCountry(countryCode);
             } else {
-                alert("Could not detect country code");
+                alert("could not detect country code");
             }
         } else {
-            alert("Could not detect country");
+            alert("could not detect country");
         }
     });
 }

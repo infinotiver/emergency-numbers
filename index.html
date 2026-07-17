@@ -4,41 +4,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Emergency Numbers Lookup</title>
+  <title>Emergency Numbers lookup</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-/>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 
 <body>
-  <div class="title">
-    <div>Emergency Numbers Lookup</div>
-  </div>
-
-  <div class="location">
-    <h2 id="country-label">Loading...</h2>
-    <div id="change-location">🌍 Change Location</div>
-
-    <div id="map-container">
-      <div id="map" ></div>
+  <main class="main-content">
+    <div class="title">
+      <span>emergency contacts in <span id="country-label">loading...</span></span>
+      <div id="change-location">change</div>
     </div>
 
+    <div id="map-container">
+      <div id="map"></div>
+    </div>
 
-  </div>
+    <div id="result"></div>
+    <div id="notes-container"></div>
+  </main>
 
-  <div id="result"></div>
+  <footer>
+    data is provided without claims of accuracy. use as guidance only.
+    <div class="credit"><a href="http://github.com/infinotiver">made by 1nf1n0t1v3r (@infinotiver)</a></div>
+  </footer>
 
-  <div class="disclaimer">
-    Data is provided without claims of accuracy. Use as guidance only.
-  </div>
-  <div class="credit"><a href="http://github.com/infinotiver">Made by 1NF1N0T1V3R</a></div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="script.js"></script>
-
 </body>
 
 </html>
